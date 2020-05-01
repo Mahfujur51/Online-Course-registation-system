@@ -63,21 +63,29 @@ else
                           Student Registration
                         </div>
 <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
-<?php $sql=mysqli_query($con,"select * from students where StudentRegno='".$_SESSION['login']."'");
-$cnt=1;
-while($row=mysqli_fetch_array($sql))
-{ ?>
+<?php 
+$studentreg=$_SESSION['login'];
+
+$sql="SELECT * FROM tbl_student WHERE studentreg='$studentreg'";
+$query=mysqli_query($con,$sql);
+$num=mysqli_num_rows($query);
+if ($num>0) {
+  $cont=1;
+  while ($result=mysqli_fetch_array($query)) {
+    # code...
+  
+?>
 
                         <div class="panel-body">
                        <form name="dept" method="post" enctype="multipart/form-data">
    <div class="form-group">
     <label for="studentname">Student Name  </label>
-    <input type="text" class="form-control" id="studentname" name="studentname" value="<?php echo htmlentities($row['studentName']);?>"  />
+    <input type="text" class="form-control" id="studentname" name="studentname" value="<?php echo htmlentities($result['studentname']);?>"  />
   </div>
 
  <div class="form-group">
     <label for="studentregno">Student Reg No   </label>
-    <input type="text" class="form-control" id="studentregno" name="studentregno" value="<?php echo htmlentities($row['StudentRegno']);?>"  placeholder="Student Reg no" readonly />
+    <input type="text" class="form-control" id="studentreg" name="studentreg" value="<?php echo htmlentities($result['studentreg']);?>"  placeholder="Student Reg no" readonly />
     
   </div>
 
@@ -85,29 +93,29 @@ while($row=mysqli_fetch_array($sql))
 
 <div class="form-group">
     <label for="Pincode">Pincode  </label>
-    <input type="text" class="form-control" id="Pincode" name="Pincode" readonly value="<?php echo htmlentities($row['pincode']);?>" required />
+    <input type="text" class="form-control" id="Pincode" name="pincode" readonly value="<?php echo htmlentities($result['pincode']);?>" required />
   </div>   
 
 <div class="form-group">
     <label for="CGPA">CGPA  </label>
-    <input type="text" class="form-control" id="cgpa" name="cgpa"  value="<?php echo htmlentities($row['cgpa']);?>" required />
+    <input type="text" class="form-control" id="cgpa" name="cgpa"  value="<?php echo htmlentities($result['cgpa']);?>" required />
   </div>  
 
 
 <div class="form-group">
     <label for="Pincode">Student Photo  </label>
-   <?php if($row['studentPhoto']==""){ ?>
+   <?php if($result['photo']==""){ ?>
    <img src="studentphoto/noimage.png" width="200" height="200"><?php } else {?>
-   <img src="studentphoto/<?php echo htmlentities($row['studentPhoto']);?>" width="200" height="200">
+   <img src="studentphoto/<?php echo htmlentities($result['photo']);?>" width="200" height="200">
    <?php } ?>
   </div>
 <div class="form-group">
     <label for="Pincode">Upload New Photo  </label>
-    <input type="file" class="form-control" id="photo" name="photo"  value="<?php echo htmlentities($row['studentPhoto']);?>" />
+    <input type="file" class="form-control" id="photo" name="photo"  value="<?php echo htmlentities($result['photo']);?>" />
   </div>
 
 
-  <?php } ?>
+  <?php } }?>
 
  <button type="submit" name="submit" id="submit" class="btn btn-default">Update</button>
 </form>

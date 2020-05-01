@@ -66,7 +66,9 @@ else
                           Course Enroll
                         </div>
 <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
-<?php $sql=mysqli_query($con,"select * from students where StudentRegno='".$_SESSION['login']."'");
+<?php
+
+ $sql=mysqli_query($con,"SELECT * FROM tbl_student WHERE studentreg='".$_SESSION['login']."'");
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
 { ?>
@@ -75,12 +77,12 @@ while($row=mysqli_fetch_array($sql))
                        <form name="dept" method="post" enctype="multipart/form-data">
    <div class="form-group">
     <label for="studentname">Student Name  </label>
-    <input type="text" class="form-control" id="studentname" name="studentname" value="<?php echo htmlentities($row['studentName']);?>"  />
+    <input type="text" class="form-control" id="studentname" name="studentname" value="<?php echo htmlentities($row['studentname']);?>"  />
   </div>
 
  <div class="form-group">
     <label for="studentregno">Student Reg No   </label>
-    <input type="text" class="form-control" id="studentregno" name="studentregno" value="<?php echo htmlentities($row['StudentRegno']);?>"  placeholder="Student Reg no" readonly />
+    <input type="text" class="form-control" id="studentregno" name="studentreg" value="<?php echo htmlentities($row['studentreg']);?>"  placeholder="Student Reg no" readonly />
     
   </div>
 
@@ -88,14 +90,14 @@ while($row=mysqli_fetch_array($sql))
 
 <div class="form-group">
     <label for="Pincode">Pincode  </label>
-    <input type="text" class="form-control" id="Pincode" name="Pincode" readonly value="<?php echo htmlentities($row['pincode']);?>" required />
+    <input type="text" class="form-control" id="Pincode" name="pincode" readonly value="<?php echo htmlentities($row['pincode']);?>" required />
   </div>   
 
 <div class="form-group">
     <label for="Pincode">Student Photo  </label>
-   <?php if($row['studentPhoto']==""){ ?>
+   <?php if($row['photo']==""){ ?>
    <img src="studentphoto/noimage.png" width="200" height="200"><?php } else {?>
-   <img src="studentphoto/<?php echo htmlentities($row['studentPhoto']);?>" width="200" height="200">
+   <img src="studentphoto/<?php echo htmlentities($row['photo']);?>" width="200" height="200">
    <?php } ?>
   </div>
  <?php } ?>
@@ -105,7 +107,7 @@ while($row=mysqli_fetch_array($sql))
     <select class="form-control" name="session" required="required">
    <option value="">Select Session</option>   
    <?php 
-$sql=mysqli_query($con,"select * from session");
+$sql=mysqli_query($con,"SELECT * FROM tbl_session");
 while($row=mysqli_fetch_array($sql))
 {
 ?>
@@ -122,7 +124,7 @@ while($row=mysqli_fetch_array($sql))
     <select class="form-control" name="department" required="required">
    <option value="">Select Depertment</option>   
    <?php 
-$sql=mysqli_query($con,"select * from department");
+$sql=mysqli_query($con,"SELECT * FROM tbl_department");
 while($row=mysqli_fetch_array($sql))
 {
 ?>
@@ -138,7 +140,7 @@ while($row=mysqli_fetch_array($sql))
     <select class="form-control" name="level" required="required">
    <option value="">Select Level</option>   
    <?php 
-$sql=mysqli_query($con,"select * from level");
+$sql=mysqli_query($con,"SELECT * FROM tbl_level");
 while($row=mysqli_fetch_array($sql))
 {
 ?>
@@ -153,7 +155,7 @@ while($row=mysqli_fetch_array($sql))
     <select class="form-control" name="sem" required="required">
    <option value="">Select Semester</option>   
    <?php 
-$sql=mysqli_query($con,"select * from semester");
+$sql=mysqli_query($con,"SELECT * FROM tbl_semester");
 while($row=mysqli_fetch_array($sql))
 {
 ?>
@@ -169,11 +171,11 @@ while($row=mysqli_fetch_array($sql))
     <select class="form-control" name="course" id="course" onBlur="courseAvailability()" required="required">
    <option value="">Select Course</option>   
    <?php 
-$sql=mysqli_query($con,"select * from course");
+$sql=mysqli_query($con,"SELECT * FROM tbl_course");
 while($row=mysqli_fetch_array($sql))
 {
 ?>
-<option value="<?php echo htmlentities($row['id']);?>"><?php echo htmlentities($row['courseName']);?></option>
+<option value="<?php echo htmlentities($row['id']);?>"><?php echo htmlentities($row['coursename']);?></option>
 <?php } ?>
     </select> 
     <span id="course-availability-status1" style="font-size:12px;">

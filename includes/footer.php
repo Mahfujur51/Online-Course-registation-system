@@ -1,10 +1,10 @@
 <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    &copy; 2015 Online Course Registration | By : <a href="http://www.phpgurukul.com/" target="_blank">PHPGURUKUL</a>
-                </div>
-
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                &copy; <?php echo Date("Y"); ?> Online Course Registration | By : <a href="www.facebook.com/mahfujur.just" target="_blank">Mahfujur Rahman</a>
             </div>
+
         </div>
-    </footer>
+    </div>
+</footer>

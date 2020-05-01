@@ -2,29 +2,36 @@
 session_start();
 include('includes/config.php');
 if(strlen($_SESSION['alogin'])==0)
-    {   
-header('location:index.php');
+{   
+    header('location:index.php');
 }
 else{
 
-if(isset($_POST['submit']))
-{
-  $sesssion=$_POST['sesssion'];
-$ret=mysqli_query($con,"insert into session(session) values('$sesssion')");
-if($ret)
-{
-$_SESSION['msg']="Session Created Successfully !!";
+    if(isset($_POST['create']))
+    {
+      $session=$_POST['session'];
+      $sql="INSERT INTO tbl_session(session) VALUES('$session')";
+      $query=mysqli_query($con,$sql);
+      if ($query) {
+        $_SESSION['msg']="Session Created Successfully!!";
+
+    }
+    else{
+        $_SESSION['msg']="Session not Created Successfully!!";
+
+    }
 }
-else
+if(isset($_GET['id']))
 {
-  $_SESSION['msg']="Error : Session not created";
+    $id=$_GET['id'];
+    $delsql="DELETE FROM tbl_session WHERE id='$id'";
+    $delquery=mysqli_query($con,$delsql);
+    if ($delquery) {
+        $_SESSION['delmsg']="Session deleted !!";
+    }
+
+    
 }
-}
-if(isset($_GET['del']))
-      {
-              mysqli_query($con,"delete from session where id = '".$_GET['id']."'");
-                  $_SESSION['delmsg']="Session deleted !!";
-      }
 ?>
 
 <!DOCTYPE html>
@@ -41,110 +48,113 @@ if(isset($_GET['del']))
 </head>
 
 <body>
-<?php include('includes/header.php');?>
+    <?php include('includes/header.php');?>
     <!-- LOGO HEADER END-->
-<?php if($_SESSION['alogin']!="")
-{
- include('includes/menubar.php');
-}
+    <?php if($_SESSION['alogin']!="")
+    {
+     include('includes/menubar.php');
+ }
  ?>
-    <!-- MENU SECTION END-->
-    <div class="content-wrapper">
-        <div class="container">
-              <div class="row">
-                    <div class="col-md-12">
-                        <h1 class="page-head-line">Add session  </h1>
-                    </div>
-                </div>
-                <div class="row" >
-                  <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                        <div class="panel panel-default">
-                        <div class="panel-heading">
-                           Session
-                        </div>
-<font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
-
-
-                        <div class="panel-body">
-                       <form name="session" method="post">
-   <div class="form-group">
-    <label for="session">Create Session </label>
-    <input type="text" class="form-control" id="sesssion" name="sesssion" placeholder="Session" />
-  </div>
- <button type="submit" name="submit" class="btn btn-default">Submit</button>
-</form>
-                            </div>
-                            </div>
-                    </div>
-                  
-                </div>
-                <font color="red" align="center"><?php echo htmlentities($_SESSION['delmsg']);?><?php echo htmlentities($_SESSION['delmsg']="");?></font>
-                <div class="col-md-12">
-                    <!--    Bordered Table  -->
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Manage Session
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="table-responsive table-bordered">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Session</th>
-                                            <th>Creation Date</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-<?php
-$sql=mysqli_query($con,"select * from session");
-$cnt=1;
-while($row=mysqli_fetch_array($sql))
-{
-?>
-
-
-                                        <tr>
-                                            <td><?php echo $cnt;?></td>
-                                            <td><?php echo htmlentities($row['session']);?></td>
-                                            <td><?php echo htmlentities($row['creationDate']);?></td>
-                                            <td>
-  <a href="session.php?id=<?php echo $row['id']?>&del=delete" onClick="return confirm('Are you sure you want to delete?')">
-                                            <button class="btn btn-danger">Delete</button>
-</a>
-                                            </td>
-                                        </tr>
-<?php 
-$cnt++;
-} ?>
-
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                     <!--  End  Bordered Table  -->
-                </div>
-            </div>
-
-
-
-
-
+ <!-- MENU SECTION END-->
+ <div class="content-wrapper">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-head-line">Add session  </h1>
         </div>
     </div>
-    <!-- CONTENT-WRAPPER SECTION END-->
-  <?php include('includes/footer.php');?>
-    <!-- FOOTER SECTION END-->
-    <!-- JAVASCRIPT AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
-    <!-- CORE JQUERY SCRIPTS -->
-    <script src="assets/js/jquery-1.11.1.js"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
-    <script src="assets/js/bootstrap.js"></script>
+    <div class="row" >
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+               Session
+           </div>
+           <font color="green" align="center"><?php echo htmlentities($_SESSION['msg']);?><?php echo htmlentities($_SESSION['msg']="");?></font>
+
+
+           <div class="panel-body">
+               <form name="session" method="post">
+                   <div class="form-group">
+                    <label for="session">Create Session </label>
+                    <input type="text" class="form-control" id="sesssion" name="session" placeholder="Session" />
+                </div>
+                <button type="submit" name="create" class="btn btn-default">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</div>
+<font color="red" align="center"><?php echo htmlentities($_SESSION['delmsg']);?><?php echo htmlentities($_SESSION['delmsg']="");?></font>
+<div class="col-md-12">
+    <!--    Bordered Table  -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Manage Session
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+            <div class="table-responsive table-bordered">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Session</th>
+                            <th>Creation Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $sql1="SELECT * FROM tbl_session";
+                        $query1=mysqli_query($con,$sql1);
+                        $num=mysqli_num_rows($query1);
+                        if ($num>0) {
+                            $cont=1;
+                            while($result=mysqli_fetch_array($query1)){
+                             
+                                ?>
+
+
+                                <tr>
+                                    <td><?php echo $cont;?></td>
+                                    <td><?php echo htmlentities($result['session']);?></td>
+                                    <td><?php echo htmlentities($result['createdate']);?></td>
+                                    <td>
+                                      <a href="?id=<?php echo $result['id']?>&del=delete" onClick="return confirm('Are you sure you want to delete?')">
+                                        <button class="btn btn-danger">Delete</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            <?php 
+                            $cont++;
+                        } } ?>
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--  End  Bordered Table  -->
+</div>
+</div>
+
+
+
+
+
+</div>
+</div>
+<!-- CONTENT-WRAPPER SECTION END-->
+<?php include('includes/footer.php');?>
+<!-- FOOTER SECTION END-->
+<!-- JAVASCRIPT AT THE BOTTOM TO REDUCE THE LOADING TIME  -->
+<!-- CORE JQUERY SCRIPTS -->
+<script src="assets/js/jquery-1.11.1.js"></script>
+<!-- BOOTSTRAP SCRIPTS  -->
+<script src="assets/js/bootstrap.js"></script>
 </body>
 </html>
 <?php } ?>

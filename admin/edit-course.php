@@ -7,15 +7,15 @@ header('location:index.php');
 }
 else{
 $id=intval($_GET['id']);
-date_default_timezone_set('Asia/Kolkata');// change according timezone
+date_default_timezone_set('Asia/Dhaka');// change according timezone
 $currentTime = date( 'd-m-Y h:i:s A', time () );
 if(isset($_POST['submit']))
 {
 $coursecode=$_POST['coursecode'];
 $coursename=$_POST['coursename'];
 $courseunit=$_POST['courseunit'];
-$seatlimit=$_POST['seatlimit'];
-$ret=mysqli_query($con,"update course set courseCode='$coursecode',courseName='$coursename',courseUnit='$courseunit',noofSeats='$seatlimit',updationDate='$currentTime' where id='$id'");
+$noofseat=$_POST['noofseat'];
+$ret=mysqli_query($con,"UPDATE tbl_course SET coursecode='$coursecode',coursename='$coursename',courseunit='$courseunit',noofseat='$noofseat'where id='$id'");
 if($ret)
 {
 $_SESSION['msg']="Course Updated Successfully !!";
@@ -69,30 +69,30 @@ else
                         <div class="panel-body">
                        <form name="dept" method="post">
 <?php
-$sql=mysqli_query($con,"select * from course where id='$id'");
-$cnt=1;
+$sql=mysqli_query($con,"SELECT * FROM tbl_course WHERE id='$id'");
+
 while($row=mysqli_fetch_array($sql))
 {
 ?>
-<p><b>Last Updated at</b> :<?php echo htmlentities($row['updationDate']);?></p>
+<p><b>Last Updated at</b> :<?php echo htmlentities($row['updatedate']);?></p>
    <div class="form-group">
     <label for="coursecode">Course Code  </label>
-    <input type="text" class="form-control" id="coursecode" name="coursecode" placeholder="Course Code" value="<?php echo htmlentities($row['courseCode']);?>" required />
+    <input type="text" class="form-control" id="coursecode" name="coursecode" placeholder="Course Code" value="<?php echo htmlentities($row['coursecode']);?>" required />
   </div>
 
  <div class="form-group">
     <label for="coursename">Course Name  </label>
-    <input type="text" class="form-control" id="coursename" name="coursename" placeholder="Course Name" value="<?php echo htmlentities($row['courseName']);?>" required />
+    <input type="text" class="form-control" id="coursename" name="coursename" placeholder="Course Name" value="<?php echo htmlentities($row['coursename']);?>" required />
   </div>
 
 <div class="form-group">
     <label for="courseunit">Course unit  </label>
-    <input type="text" class="form-control" id="courseunit" name="courseunit" placeholder="Course Unit" value="<?php echo htmlentities($row['courseUnit']);?>" required />
+    <input type="text" class="form-control" id="courseunit" name="courseunit" placeholder="Course Unit" value="<?php echo htmlentities($row['courseunit']);?>" required />
   </div>  
 
 <div class="form-group">
-    <label for="seatlimit">Seat limit  </label>
-    <input type="text" class="form-control" id="seatlimit" name="seatlimit" placeholder="Seat limit" value="<?php echo htmlentities($row['noofSeats']);?>" required />
+    <label for="noofseat">Seat limit  </label>
+    <input type="text" class="form-control" id="noofseat" name="noofseat" placeholder="Seat limit" value="<?php echo htmlentities($row['noofseat']);?>" required />
   </div>  
 
 

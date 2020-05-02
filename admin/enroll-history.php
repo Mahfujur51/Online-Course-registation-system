@@ -65,34 +65,32 @@ else{
                                              <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-<?php
-$sql=mysqli_query($con,"select courseenrolls.course as cid, course.courseName as courname,session.session as session,department.department as dept,courseenrolls.enrollDate as edate ,semester.semester as sem,students.studentName as sname,students.StudentRegno as sregno from courseenrolls join course on course.id=courseenrolls.course join session on session.id=courseenrolls.session join department on department.id=courseenrolls.department   join semester on semester.id=courseenrolls.semester join students on students.StudentRegno=courseenrolls.studentRegno ");
-$cnt=1;
-while($row=mysqli_fetch_array($sql))
-{
-?>
-
-
-                                        <tr>
-                                            <td><?php echo $cnt;?></td>
-                                              <td><?php echo htmlentities($row['sname']);?></td>
-                                            <td><?php echo htmlentities($row['sregno']);?></td>
-                                            <td><?php echo htmlentities($row['courname']);?></td>
-                                            <td><?php echo htmlentities($row['dept']);?></td>
-                                          
-                                            <td><?php echo htmlentities($row['sem']);?></td>
-                                             <td><?php echo htmlentities($row['edate']);?></td>
-                                            <td>
-                                            <a href="print.php?id=<?php echo $row['cid']?>" target="_blank">
-<button class="btn btn-primary"><i class="fa fa-print "></i> Print</button> </a>                                        
-
-
-                                            </td>
-                                        </tr>
-<?php 
-$cnt++;
-} ?>
+ <?php
+                                            //$studentreg=$_SESSION['login'];
+                                            $sql="SELECT tbl_courseenrolls.course as cid, tbl_course.coursename as courname,tbl_session.session as session,tbl_department.department as dept,tbl_level.level as level,tbl_courseenrolls.enrolldate as edate ,tbl_semester.semester as sem from tbl_courseenrolls join tbl_course on tbl_course.id=tbl_courseenrolls.course join tbl_session on tbl_session.id=tbl_courseenrolls.session join tbl_department on tbl_department.id=tbl_courseenrolls.department join tbl_level on tbl_level.id=tbl_courseenrolls.level  join tbl_semester on tbl_semester.id=tbl_courseenrolls.semester";
+                                            $query=mysqli_query($con,$sql);
+                                            $num=mysqli_num_rows($query);
+                                            if ($num>0) {
+                                                $cont=1;
+                                                while ($row=mysqli_fetch_array($query)) {
+                                            # code...
+                                                    ?>
+                                                    <tr>
+                                                        <td><?php echo $cont;?></td>
+                                                        <td><?php echo htmlentities($row['courname']);?></td>
+                                                        <td><?php echo htmlentities($row['session']);?></td>
+                                                        <td><?php echo htmlentities($row['dept']);?></td>
+                                                        <td><?php echo htmlentities($row['level']);?></td>
+                                                        <td><?php echo htmlentities($row['sem']);?></td>
+                                                        <td><?php echo htmlentities($row['edate']);?></td>
+                                                        <td>
+                                                            <a href="print.php?id=<?php echo $row['cid']?>" target="_blank">
+                                                                <button class="btn btn-primary"><i class="fa fa-print "></i> Print</button> </a>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                        $cont++;
+                                                    } } ?>
 
                                         
                                     </tbody>

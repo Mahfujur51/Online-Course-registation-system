@@ -67,7 +67,7 @@ else{
                                     </thead>
                                     <tbody>
 <?php
-$sql=mysqli_query($con,"select * from userlog");
+$sql=mysqli_query($con,"select * from tbl_userlog");
 $cnt=1;
 while($row=mysqli_fetch_array($sql))
 {
@@ -76,9 +76,9 @@ while($row=mysqli_fetch_array($sql))
 
                                         <tr>
                                             <td><?php echo $cnt;?></td>
-                                              <td><?php echo htmlentities($row['studentRegno']);?></td>
+                                              <td><?php echo htmlentities($row['studentreg']);?></td>
                                             <td><?php echo htmlentities($row['userip']);?></td>
-                                            <td><?php echo htmlentities($row['loginTime']);?></td>
+                                            <td><?php echo htmlentities($row['logintime']);?></td>
                                             <td><?php echo htmlentities($row['logout']);?></td>
                                             <td><?php echo htmlentities($row['status']);?></td>
                                         </tr>

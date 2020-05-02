@@ -10,14 +10,14 @@ else{
 
 if(isset($_POST['submit']))
 {
-$studentregno=$_POST['studentregno'];
-$pincode=$_POST['Pincode'];
+$studentreg=$_POST['studentreg'];
+$pincode=$_POST['pincode'];
 $session=$_POST['session'];
-$dept=$_POST['department'];
+$department=$_POST['department'];
 $level=$_POST['level'];
 $course=$_POST['course'];
-$sem=$_POST['sem'];
-$ret=mysqli_query($con,"insert into courseenrolls(studentRegno,pincode,session,department,level,course,semester) values('$studentregno','$pincode','$session','$dept','$level','$course','$sem')");
+$semester=$_POST['semester'];
+$ret=mysqli_query($con,"INSERT into tbl_courseenrolls(studentreg,pincode,session,department,level,course,semester) values('$studentreg','$pincode','$session','$department','$level','$course','$semester')");
 if($ret)
 {
 $_SESSION['msg']="Enroll Successfully !!";
@@ -152,7 +152,7 @@ while($row=mysqli_fetch_array($sql))
 
 <div class="form-group">
     <label for="Semester">Semester  </label>
-    <select class="form-control" name="sem" required="required">
+    <select class="form-control" name="semester" required="required">
    <option value="">Select Semester</option>   
    <?php 
 $sql=mysqli_query($con,"SELECT * FROM tbl_semester");
